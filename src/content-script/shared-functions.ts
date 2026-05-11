@@ -410,7 +410,9 @@ async function addRating(showRating: boolean, optionHideTitles: boolean) {
 						const item = card.closest(".slider-item") as HTMLElement
 						if (item) item.style.display = "none"
 					} else if (isDisney || isHotstar) {
-						const item = card.parentElement as HTMLElement
+						const item = (isHotstar
+							? card.closest("[data-testid='tray-card-default']") || card.closest("a") || card.parentElement
+							: card.parentElement) as HTMLElement
 						if (item) item.style.display = "none"
 					}
 					settings.value.Statistics.SegmentsSkipped++
@@ -464,7 +466,9 @@ function addHideTitleButton(card: HTMLElement, title: string) {
 		// stop propagation
 		event.stopPropagation()
 		event.preventDefault()
-		const item = card.parentElement as HTMLElement
+		const item = (isHotstar
+			? card.closest("[data-testid='tray-card-default']") || card.closest("a") || card.parentElement
+			: card.parentElement) as HTMLElement
 		if (item) item.style.display = "none"
 		hideTitles.value[title] = true
 		console.log("hideTitles", hideTitles.value)
